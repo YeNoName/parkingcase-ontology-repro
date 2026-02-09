@@ -1,0 +1,108 @@
+@prefix sfs: <https://w3id.org/sfs/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+[] a sh:ValidationReport ;
+    sh:conforms false ;
+    sh:result [ a sh:ValidationResult ;
+            sh:focusNode <https://w3id.org/sfs/ParkingCase/T_Fit_2B085> ;
+            sh:resultMessage "Task starts before at least one predecessor has finished.",
+                "Task starts before predecessor has finished." ;
+            sh:resultSeverity sh:Violation ;
+            sh:sourceConstraint [ sh:message "Task starts before predecessor has finished."@en ;
+                    sh:select """
+      PREFIX sfs: <https://w3id.org/sfs/>
+      PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+      SELECT DISTINCT ?this WHERE {
+        ?this a sfs:TaskNode ;
+              sfs:hasStartTime ?ts .
+        ?pred a sfs:TaskNode ;
+              sfs:precedes ?this ;
+              sfs:hasFinishTime ?tf .
+        # Violation condition: predecessor finishes after this task starts
+        FILTER ( ?tf > ?ts )
+      }
+    """ ] ;
+            sh:sourceConstraintComponent sh:SPARQLConstraintComponent ;
+            sh:sourceShape sfs:S3_PredecessorsCompleted ;
+            sh:value <https://w3id.org/sfs/ParkingCase/T_Fit_2B085> ],
+        [ a sh:ValidationResult ;
+            sh:focusNode <https://w3id.org/sfs/ParkingCase/T_Drill_2B001> ;
+            sh:resultMessage "Assigned machine is not in eligibleOn.",
+                "Assigned machine must be one of the eligible machines." ;
+            sh:resultSeverity sh:Violation ;
+            sh:sourceConstraint [ sh:message "Assigned machine is not in eligibleOn."@en ;
+                    sh:select """
+      PREFIX sfs: <https://w3id.org/sfs/>
+
+      SELECT DISTINCT ?this WHERE {
+        ?this a sfs:TaskNode ;
+              sfs:assignedToMachine ?m .
+        FILTER NOT EXISTS { ?this sfs:eligibleOn ?m . }
+      }
+    """ ] ;
+            sh:sourceConstraintComponent sh:SPARQLConstraintComponent ;
+            sh:sourceShape sfs:S1_AssignedSubsetOfEligible ;
+            sh:value <https://w3id.org/sfs/ParkingCase/T_Drill_2B001> ],
+        [ a sh:ValidationResult ;
+            sh:focusNode <https://w3id.org/sfs/ParkingCase/T_Drill_2B001> ;
+            sh:resultMessage "Hole diameter exceeds assigned machine capacity." ;
+            sh:resultSeverity sh:Violation ;
+            sh:sourceConstraint [ sh:message "Hole diameter exceeds assigned machine capacity."@en ;
+                    sh:select """
+      PREFIX sfs:  <https://w3id.org/sfs/>
+      PREFIX qudt: <http://qudt.org/schema/qudt/>
+      PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+
+      SELECT DISTINCT ?this WHERE {
+        # Task operates on a part and is assigned to a drilling / punching machine
+        ?this a sfs:TaskNode ;
+              sfs:operatesOnPart ?p ;
+              sfs:assignedToMachine ?m .
+
+        # Hole features hosted on that part
+        ?h a sfs:HoleFeature ;
+           sfs:hostPart ?p ;
+           sfs:hasDiameter ?diaQv .
+        ?diaQv qudt:numericValue ?diaVal .
+
+        # Machine hole capacity
+        ?m  sfs:maxHoleDiameter ?capQv .
+        ?capQv qudt:numericValue ?capVal .
+
+        # Violation: hole diameter > machine capacity
+        FILTER ( ?diaVal > ?capVal )
+      }
+    """ ] ;
+            sh:sourceConstraintComponent sh:SPARQLConstraintComponent ;
+            sh:sourceShape sfs:S2_HoleDiaWithinCapacity ;
+            sh:value <https://w3id.org/sfs/ParkingCase/T_Drill_2B001> ],
+        [ a sh:ValidationResult ;
+            sh:focusNode <https://w3id.org/sfs/ParkingCase/T_Drill_2B085> ;
+            sh:resultMessage "Task scheduled during maintenance window of its machine." ;
+            sh:resultSeverity sh:Violation ;
+            sh:sourceConstraint [ sh:message "Task scheduled during maintenance window of its machine."@en ;
+                    sh:select """
+      PREFIX sfs: <https://w3id.org/sfs/>
+      PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+      SELECT DISTINCT ?this WHERE {
+        ?this a sfs:TaskNode ;
+              sfs:assignedToMachine ?m ;
+              sfs:hasStartTime ?ts ;
+              sfs:hasFinishTime ?tf .
+
+        ?ev a sfs:Event ;
+            sfs:affects ?m ;
+            sfs:windowStart ?ws ;
+            sfs:windowEnd ?we .
+
+        # Any temporal overlap between task and maintenance window is a violation
+        FILTER ( ?ts < ?we && ?tf > ?ws )
+      }
+    """ ] ;
+            sh:sourceConstraintComponent sh:SPARQLConstraintComponent ;
+            sh:sourceShape sfs:S4_NoWorkInMaintenanceWindow ;
+            sh:value <https://w3id.org/sfs/ParkingCase/T_Drill_2B085> ] .
+

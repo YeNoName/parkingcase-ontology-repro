@@ -1,0 +1,37 @@
+PREFIX sfs:  <https://w3id.org/sfs/>
+PREFIX sh:   <http://www.w3.org/ns/shacl#>
+PREFIX qudt: <http://qudt.org/schema/qudt/>
+
+SELECT ?asm ?task ?machine ?diaVal ?capVal ?shape ?msg WHERE {
+
+  # --- SHACL diagnostics (from report_*.ttl) ---
+  ?vr a sh:ValidationResult ;
+      sh:focusNode ?task ;
+      sh:sourceShape ?shape ;
+      sh:resultMessage ?msg .
+  FILTER(?shape = sfs:S2_HoleDiaWithinCapacity)
+
+  # --- scheduling & assignment (from instances_*.ttl) ---
+  ?task a sfs:TaskNode ;
+        sfs:belongsToAssembly ?asm ;
+        sfs:assignedToMachine ?machine ;
+        sfs:operatesOnPart ?p .
+
+  ?machine a sfs:PunchLineMachine ;
+           sfs:maxHoleDiameter ?capQv .
+  ?capQv qudt:numericValue ?capVal .
+
+  # --- feature requirement (robust join: hasFeature OR hostPart) ---
+  {
+    ?p sfs:hasFeature ?h .
+  }
+  UNION
+  {
+    ?h sfs:hostPart ?p .
+  }
+
+  ?h a sfs:HoleFeature ;
+     sfs:hasDiameter ?diaQv .
+  ?diaQv qudt:numericValue ?diaVal .
+}
+ORDER BY ?asm ?task

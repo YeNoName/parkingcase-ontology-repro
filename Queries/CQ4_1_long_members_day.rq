@@ -1,0 +1,21 @@
+PREFIX sfs:  <https://w3id.org/sfs/>
+PREFIX qudt: <http://qudt.org/schema/qudt/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?asm ?len ?task ?machine ?start WHERE {
+  ?asm a sfs:BeamAssembly ;
+       sfs:hasPart ?pMain .
+  ?pMain a sfs:WFPart ;
+         sfs:hasLength ?lenQv .
+  ?lenQv qudt:numericValue ?len .
+  FILTER(?len > 9.0)
+
+  ?task a sfs:TaskNode ;
+        sfs:belongsToAssembly ?asm ;
+        sfs:assignedToMachine ?machine ;
+        sfs:hasStartTime ?start .
+
+  FILTER(?start >= "2025-11-21T00:00:00+00:00"^^xsd:dateTime &&
+         ?start <  "2025-11-22T00:00:00+00:00"^^xsd:dateTime)
+}
+ORDER BY ?asm ?start

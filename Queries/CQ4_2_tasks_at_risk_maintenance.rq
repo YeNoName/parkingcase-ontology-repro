@@ -1,0 +1,18 @@
+PREFIX sfs: <https://w3id.org/sfs/>
+
+SELECT ?task ?asm ?machine ?start ?finish ?ws ?we WHERE {
+  ?ev a sfs:Event ;
+      sfs:eventType "maintenance" ;
+      sfs:affects ?machine ;
+      sfs:windowStart ?ws ;
+      sfs:windowEnd ?we .
+
+  ?task a sfs:TaskNode ;
+        sfs:belongsToAssembly ?asm ;
+        sfs:assignedToMachine ?machine ;
+        sfs:hasStartTime ?start ;
+        sfs:hasFinishTime ?finish .
+
+  FILTER (?start < ?we && ?finish > ?ws)
+}
+ORDER BY ?task

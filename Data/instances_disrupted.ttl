@@ -1,0 +1,269 @@
+@prefix ns1: <https://w3id.org/sfs/> .
+@prefix ns2: <http://qudt.org/schema/qudt/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/sfs/ParkingCase/AngleMaster_AM01> a ns1:AngleLineMachine .
+
+<https://w3id.org/sfs/ParkingCase/EV_DL01_Maint> a ns1:Event ;
+    ns1:affects <https://w3id.org/sfs/ParkingCase/DrillLine_DL01> ;
+    ns1:eventType "maintenance" ;
+    ns1:windowEnd "2025-11-21T16:00:00+00:00"^^xsd:dateTime ;
+    ns1:windowStart "2025-11-21T14:00:00+00:00"^^xsd:dateTime .
+
+<https://w3id.org/sfs/ParkingCase/Hole_2B001_1> a ns1:HoleFeature ;
+    ns1:hasDiameter <https://w3id.org/sfs/ParkingCase/Dia_36mm> ;
+    ns1:hostPart <https://w3id.org/sfs/ParkingCase/Part_2B001_Main> .
+
+<https://w3id.org/sfs/ParkingCase/Hole_2B085_1> a ns1:HoleFeature ;
+    ns1:hasDiameter <https://w3id.org/sfs/ParkingCase/Dia_19_05mm> ;
+    ns1:hostPart <https://w3id.org/sfs/ParkingCase/Part_2B085_Main> .
+
+<https://w3id.org/sfs/ParkingCase/Hole_C202_PL_1> a ns1:HoleFeature ;
+    ns1:hasDiameter <https://w3id.org/sfs/ParkingCase/Dia_18mm> ;
+    ns1:hostPart <https://w3id.org/sfs/ParkingCase/Part_C202_Plate> .
+
+<https://w3id.org/sfs/ParkingCase/Policy_Expedite> a ns1:Policy ;
+    ns1:costWeight 1.0 ;
+    ns1:latenessWeight 2.0 ;
+    ns1:objectiveType "expedite" .
+
+<https://w3id.org/sfs/ParkingCase/T_Drill_2B001> a ns1:TaskNode ;
+    ns1:assignedToMachine <https://w3id.org/sfs/ParkingCase/PunchLine_PL01> ;
+    ns1:belongsToAssembly <https://w3id.org/sfs/ParkingCase/Asm_2B001> ;
+    ns1:eligibleOn <https://w3id.org/sfs/ParkingCase/DrillLine_DL01>,
+        <https://w3id.org/sfs/ParkingCase/PythonX_PX01> ;
+    ns1:hasFinishTime "2025-11-21T10:00:00+00:00"^^xsd:dateTime ;
+    ns1:hasStartTime "2025-11-21T09:00:00+00:00"^^xsd:dateTime ;
+    ns1:operatesOnPart <https://w3id.org/sfs/ParkingCase/Part_2B001_Main> ;
+    ns1:precedes <https://w3id.org/sfs/ParkingCase/T_Fit_2B001> ;
+    ns1:representsProcess ns1:Drilling .
+
+<https://w3id.org/sfs/ParkingCase/T_Drill_2B085> a ns1:TaskNode ;
+    ns1:assignedToMachine <https://w3id.org/sfs/ParkingCase/DrillLine_DL01> ;
+    ns1:belongsToAssembly <https://w3id.org/sfs/ParkingCase/Asm_2B085> ;
+    ns1:eligibleOn <https://w3id.org/sfs/ParkingCase/DrillLine_DL01>,
+        <https://w3id.org/sfs/ParkingCase/PythonX_PX01> ;
+    ns1:hasFinishTime "2025-11-21T15:30:00+00:00"^^xsd:dateTime ;
+    ns1:hasStartTime "2025-11-21T14:30:00+00:00"^^xsd:dateTime ;
+    ns1:operatesOnPart <https://w3id.org/sfs/ParkingCase/Part_2B085_Main> ;
+    ns1:precedes <https://w3id.org/sfs/ParkingCase/T_Fit_2B085> ;
+    ns1:representsProcess ns1:Drilling .
+
+<https://w3id.org/sfs/ParkingCase/T_Drill_C202> a ns1:TaskNode ;
+    ns1:assignedToMachine <https://w3id.org/sfs/ParkingCase/PythonX_PX01> ;
+    ns1:belongsToAssembly <https://w3id.org/sfs/ParkingCase/Asm_C202> ;
+    ns1:eligibleOn <https://w3id.org/sfs/ParkingCase/PythonX_PX01> ;
+    ns1:hasFinishTime "2025-11-21T09:00:00+00:00"^^xsd:dateTime ;
+    ns1:hasStartTime "2025-11-21T08:00:00+00:00"^^xsd:dateTime ;
+    ns1:operatesOnPart <https://w3id.org/sfs/ParkingCase/Part_C202_Main> ;
+    ns1:precedes <https://w3id.org/sfs/ParkingCase/T_Fit_C202> ;
+    ns1:representsProcess ns1:Drilling .
+
+<https://w3id.org/sfs/ParkingCase/T_Plasma_C202> a ns1:TaskNode ;
+    ns1:assignedToMachine <https://w3id.org/sfs/ParkingCase/Plasma_Messer> ;
+    ns1:belongsToAssembly <https://w3id.org/sfs/ParkingCase/Asm_C202> ;
+    ns1:eligibleOn <https://w3id.org/sfs/ParkingCase/Plasma_CA>,
+        <https://w3id.org/sfs/ParkingCase/Plasma_Messer>,
+        <https://w3id.org/sfs/ParkingCase/Plasma_Sector> ;
+    ns1:hasFinishTime "2025-11-21T10:00:00+00:00"^^xsd:dateTime ;
+    ns1:hasStartTime "2025-11-21T09:00:00+00:00"^^xsd:dateTime ;
+    ns1:operatesOnPart <https://w3id.org/sfs/ParkingCase/Part_C202_Plate> ;
+    ns1:precedes <https://w3id.org/sfs/ParkingCase/T_Fit_C202> ;
+    ns1:representsProcess ns1:PlasmaCutting .
+
+<https://w3id.org/sfs/ParkingCase/DL01_MaxHole> a ns2:QuantityValue ;
+    ns2:numericValue 36.51 ;
+    ns2:unit <http://qudt.org/vocab/unit/MilliM> .
+
+<https://w3id.org/sfs/ParkingCase/Dia_18mm> a ns2:QuantityValue ;
+    ns2:numericValue 18.0 ;
+    ns2:unit <http://qudt.org/vocab/unit/MilliM> .
+
+<https://w3id.org/sfs/ParkingCase/Dia_19_05mm> a ns2:QuantityValue ;
+    ns2:numericValue 19.05 ;
+    ns2:unit <http://qudt.org/vocab/unit/MilliM> .
+
+<https://w3id.org/sfs/ParkingCase/Dia_36mm> a ns2:QuantityValue ;
+    ns2:numericValue 36.0 ;
+    ns2:unit <http://qudt.org/vocab/unit/MilliM> .
+
+<https://w3id.org/sfs/ParkingCase/Len_2B001_Main> a ns2:QuantityValue ;
+    ns2:numericValue 10.0 ;
+    ns2:unit <http://qudt.org/vocab/unit/M> .
+
+<https://w3id.org/sfs/ParkingCase/Len_2B085_Main> a ns2:QuantityValue ;
+    ns2:numericValue 6.0 ;
+    ns2:unit <http://qudt.org/vocab/unit/M> .
+
+<https://w3id.org/sfs/ParkingCase/Len_C202_Main> a ns2:QuantityValue ;
+    ns2:numericValue 12.0 ;
+    ns2:unit <http://qudt.org/vocab/unit/M> .
+
+<https://w3id.org/sfs/ParkingCase/PL01_MaxHole> a ns2:QuantityValue ;
+    ns2:numericValue 30.0 ;
+    ns2:unit <http://qudt.org/vocab/unit/MilliM> .
+
+<https://w3id.org/sfs/ParkingCase/PT_CA_MaxTh> a ns2:QuantityValue ;
+    ns2:numericValue 200.0 ;
+    ns2:unit <http://qudt.org/vocab/unit/MilliM> .
+
+<https://w3id.org/sfs/ParkingCase/PT_CA_MinTh> a ns2:QuantityValue ;
+    ns2:numericValue 4.0 ;
+    ns2:unit <http://qudt.org/vocab/unit/MilliM> .
+
+<https://w3id.org/sfs/ParkingCase/PT_CA_Pierce> a ns2:QuantityValue ;
+    ns2:numericValue 10.0 ;
+    ns2:unit <http://qudt.org/vocab/unit/PER-MIN> .
+
+<https://w3id.org/sfs/ParkingCase/PT_CA_Speed> a ns2:QuantityValue ;
+    ns2:numericValue 1.2 ;
+    ns2:unit <http://qudt.org/vocab/unit/M-PER-MIN> .
+
+<https://w3id.org/sfs/ParkingCase/PT_Messer_MaxTh> a ns2:QuantityValue ;
+    ns2:numericValue 200.0 ;
+    ns2:unit <http://qudt.org/vocab/unit/MilliM> .
+
+<https://w3id.org/sfs/ParkingCase/PT_Messer_MinTh> a ns2:QuantityValue ;
+    ns2:numericValue 4.0 ;
+    ns2:unit <http://qudt.org/vocab/unit/MilliM> .
+
+<https://w3id.org/sfs/ParkingCase/PT_Messer_Pierce> a ns2:QuantityValue ;
+    ns2:numericValue 6.0 ;
+    ns2:unit <http://qudt.org/vocab/unit/PER-MIN> .
+
+<https://w3id.org/sfs/ParkingCase/PT_Messer_Speed> a ns2:QuantityValue ;
+    ns2:numericValue 0.8 ;
+    ns2:unit <http://qudt.org/vocab/unit/M-PER-MIN> .
+
+<https://w3id.org/sfs/ParkingCase/PT_Sector_MaxTh> a ns2:QuantityValue ;
+    ns2:numericValue 100.0 ;
+    ns2:unit <http://qudt.org/vocab/unit/MilliM> .
+
+<https://w3id.org/sfs/ParkingCase/PT_Sector_MinTh> a ns2:QuantityValue ;
+    ns2:numericValue 4.0 ;
+    ns2:unit <http://qudt.org/vocab/unit/MilliM> .
+
+<https://w3id.org/sfs/ParkingCase/PT_Sector_Pierce> a ns2:QuantityValue ;
+    ns2:numericValue 8.0 ;
+    ns2:unit <http://qudt.org/vocab/unit/PER-MIN> .
+
+<https://w3id.org/sfs/ParkingCase/PT_Sector_Speed> a ns2:QuantityValue ;
+    ns2:numericValue 1.0 ;
+    ns2:unit <http://qudt.org/vocab/unit/M-PER-MIN> .
+
+<https://w3id.org/sfs/ParkingCase/PX01_MaxHole> a ns2:QuantityValue ;
+    ns2:numericValue 60.0 ;
+    ns2:unit <http://qudt.org/vocab/unit/MilliM> .
+
+<https://w3id.org/sfs/ParkingCase/Plasma_CA> a ns1:PlasmaTableMachine ;
+    ns1:maxPlateThickness <https://w3id.org/sfs/ParkingCase/PT_CA_MaxTh> ;
+    ns1:minPlateThickness <https://w3id.org/sfs/ParkingCase/PT_CA_MinTh> ;
+    ns1:operationalCostIndex 3 ;
+    ns1:piercingSpeed <https://w3id.org/sfs/ParkingCase/PT_CA_Pierce> ;
+    ns1:plasmaCuttingSpeed <https://w3id.org/sfs/ParkingCase/PT_CA_Speed> ;
+    ns1:supportsMechanicalDrilling true ;
+    ns1:supportsThermalHoleCutting true .
+
+<https://w3id.org/sfs/ParkingCase/Plasma_Sector> a ns1:PlasmaTableMachine ;
+    ns1:maxPlateThickness <https://w3id.org/sfs/ParkingCase/PT_Sector_MaxTh> ;
+    ns1:minPlateThickness <https://w3id.org/sfs/ParkingCase/PT_Sector_MinTh> ;
+    ns1:operationalCostIndex 1 ;
+    ns1:piercingSpeed <https://w3id.org/sfs/ParkingCase/PT_Sector_Pierce> ;
+    ns1:plasmaCuttingSpeed <https://w3id.org/sfs/ParkingCase/PT_Sector_Speed> ;
+    ns1:supportsThermalHoleCutting true .
+
+<https://w3id.org/sfs/ParkingCase/PunchLine_PL01> a ns1:PunchLineMachine ;
+    ns1:maxHoleDiameter <https://w3id.org/sfs/ParkingCase/PL01_MaxHole> ;
+    ns1:supportsMechanicalDrilling true ;
+    ns1:supportsThermalHoleCutting false .
+
+<https://w3id.org/sfs/ParkingCase/T_Fit_2B001> a ns1:TaskNode ;
+    ns1:belongsToAssembly <https://w3id.org/sfs/ParkingCase/Asm_2B001> ;
+    ns1:hasFinishTime "2025-11-21T12:00:00+00:00"^^xsd:dateTime ;
+    ns1:hasStartTime "2025-11-21T11:00:00+00:00"^^xsd:dateTime ;
+    ns1:precedes <https://w3id.org/sfs/ParkingCase/T_Weld_2B001> ;
+    ns1:representsProcess ns1:Fitting .
+
+<https://w3id.org/sfs/ParkingCase/T_Fit_2B085> a ns1:TaskNode ;
+    ns1:belongsToAssembly <https://w3id.org/sfs/ParkingCase/Asm_2B085> ;
+    ns1:hasFinishTime "2025-11-21T11:00:00+00:00"^^xsd:dateTime ;
+    ns1:hasStartTime "2025-11-21T10:00:00+00:00"^^xsd:dateTime ;
+    ns1:precedes <https://w3id.org/sfs/ParkingCase/T_Weld_2B085> ;
+    ns1:representsProcess ns1:Fitting .
+
+<https://w3id.org/sfs/ParkingCase/T_Weld_2B001> a ns1:TaskNode ;
+    ns1:belongsToAssembly <https://w3id.org/sfs/ParkingCase/Asm_2B001> ;
+    ns1:hasFinishTime "2025-11-21T13:00:00+00:00"^^xsd:dateTime ;
+    ns1:hasStartTime "2025-11-21T12:00:00+00:00"^^xsd:dateTime ;
+    ns1:representsProcess ns1:Welding .
+
+<https://w3id.org/sfs/ParkingCase/T_Weld_2B085> a ns1:TaskNode ;
+    ns1:belongsToAssembly <https://w3id.org/sfs/ParkingCase/Asm_2B085> ;
+    ns1:hasFinishTime "2025-11-21T12:00:00+00:00"^^xsd:dateTime ;
+    ns1:hasStartTime "2025-11-21T11:00:00+00:00"^^xsd:dateTime ;
+    ns1:representsProcess ns1:Welding .
+
+<https://w3id.org/sfs/ParkingCase/T_Weld_C202> a ns1:TaskNode ;
+    ns1:belongsToAssembly <https://w3id.org/sfs/ParkingCase/Asm_C202> ;
+    ns1:hasFinishTime "2025-11-21T13:00:00+00:00"^^xsd:dateTime ;
+    ns1:hasStartTime "2025-11-21T12:00:00+00:00"^^xsd:dateTime ;
+    ns1:representsProcess ns1:Welding .
+
+<https://w3id.org/sfs/ParkingCase/Th_C202_Plate> a ns2:QuantityValue ;
+    ns2:numericValue 20.0 ;
+    ns2:unit <http://qudt.org/vocab/unit/MilliM> .
+
+<https://w3id.org/sfs/ParkingCase/Part_C202_Main> a ns1:HSSPart ;
+    ns1:hasLength <https://w3id.org/sfs/ParkingCase/Len_C202_Main> .
+
+<https://w3id.org/sfs/ParkingCase/Plasma_Messer> a ns1:PlasmaTableMachine ;
+    ns1:maxPlateThickness <https://w3id.org/sfs/ParkingCase/PT_Messer_MaxTh> ;
+    ns1:minPlateThickness <https://w3id.org/sfs/ParkingCase/PT_Messer_MinTh> ;
+    ns1:operationalCostIndex 2 ;
+    ns1:piercingSpeed <https://w3id.org/sfs/ParkingCase/PT_Messer_Pierce> ;
+    ns1:plasmaCuttingSpeed <https://w3id.org/sfs/ParkingCase/PT_Messer_Speed> ;
+    ns1:supportsThermalHoleCutting true .
+
+<https://w3id.org/sfs/ParkingCase/T_Fit_C202> a ns1:TaskNode ;
+    ns1:belongsToAssembly <https://w3id.org/sfs/ParkingCase/Asm_C202> ;
+    ns1:hasFinishTime "2025-11-21T12:00:00+00:00"^^xsd:dateTime ;
+    ns1:hasStartTime "2025-11-21T11:00:00+00:00"^^xsd:dateTime ;
+    ns1:precedes <https://w3id.org/sfs/ParkingCase/T_Weld_C202> ;
+    ns1:representsProcess ns1:Fitting .
+
+<https://w3id.org/sfs/ParkingCase/Asm_2B001> a ns1:BeamAssembly ;
+    ns1:hasModelIdentifier "2B001" ;
+    ns1:hasPart <https://w3id.org/sfs/ParkingCase/Part_2B001_Main> ;
+    ns1:quantity 10 .
+
+<https://w3id.org/sfs/ParkingCase/Asm_2B085> a ns1:BeamAssembly ;
+    ns1:hasModelIdentifier "2B085" ;
+    ns1:hasPart <https://w3id.org/sfs/ParkingCase/Part_2B085_Main> ;
+    ns1:quantity 30 .
+
+<https://w3id.org/sfs/ParkingCase/Part_2B001_Main> a ns1:WFPart ;
+    ns1:hasLength <https://w3id.org/sfs/ParkingCase/Len_2B001_Main> .
+
+<https://w3id.org/sfs/ParkingCase/Part_2B085_Main> a ns1:WFPart ;
+    ns1:hasLength <https://w3id.org/sfs/ParkingCase/Len_2B085_Main> .
+
+<https://w3id.org/sfs/ParkingCase/Part_C202_Plate> a ns1:PlatePart ;
+    ns1:hasPlateThickness <https://w3id.org/sfs/ParkingCase/Th_C202_Plate> .
+
+<https://w3id.org/sfs/ParkingCase/Asm_C202> a ns1:ColumnAssembly ;
+    ns1:hasModelIdentifier "C202" ;
+    ns1:hasPart <https://w3id.org/sfs/ParkingCase/Part_C202_Main>,
+        <https://w3id.org/sfs/ParkingCase/Part_C202_Plate> ;
+    ns1:quantity 5 .
+
+<https://w3id.org/sfs/ParkingCase/DrillLine_DL01> a ns1:DrillLineMachine ;
+    ns1:maxHoleDiameter <https://w3id.org/sfs/ParkingCase/DL01_MaxHole> ;
+    ns1:supportsMechanicalDrilling true ;
+    ns1:supportsThermalHoleCutting false .
+
+<https://w3id.org/sfs/ParkingCase/PythonX_PX01> a ns1:PythonXMachine ;
+    ns1:maxHoleDiameter <https://w3id.org/sfs/ParkingCase/PX01_MaxHole> ;
+    ns1:supportsBevelCutting true ;
+    ns1:supportsMechanicalDrilling true ;
+    ns1:supportsThermalHoleCutting false .
+

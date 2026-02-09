@@ -1,0 +1,380 @@
+@prefix : <https://w3id.org/sfs/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sfs: <https://w3id.org/sfs/> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix qudt: <http://qudt.org/schema/qudt/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix unit: <http://qudt.org/vocab/unit/> .
+@base <https://w3id.org/sfs/> .
+
+<https://w3id.org/sfs/> rdf:type owl:Ontology ;
+                         owl:imports <file:/G:/Smart%20Construction/Protege%20Testing/ParkingCaseOntology/instances_baseline.ttl> ;
+                         rdfs:label "Steel Fabrication Scheduling Ontology (core)"@en .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  https://w3id.org/sfs/affects
+sfs:affects rdf:type owl:ObjectProperty ;
+            rdfs:domain sfs:Event ;
+            rdfs:range sfs:Machine .
+
+
+###  https://w3id.org/sfs/assignedToMachine
+sfs:assignedToMachine rdf:type owl:ObjectProperty ;
+                      rdfs:domain sfs:TaskNode ;
+                      rdfs:range sfs:Machine .
+
+
+###  https://w3id.org/sfs/belongsToAssembly
+sfs:belongsToAssembly rdf:type owl:ObjectProperty ;
+                      rdfs:domain sfs:TaskNode ;
+                      rdfs:range sfs:Assembly .
+
+
+###  https://w3id.org/sfs/eligibleOn
+sfs:eligibleOn rdf:type owl:ObjectProperty ;
+               rdfs:domain sfs:TaskNode ;
+               rdfs:range sfs:Machine .
+
+
+###  https://w3id.org/sfs/hasDiameter
+sfs:hasDiameter rdf:type owl:ObjectProperty ;
+                rdfs:domain sfs:HoleFeature ;
+                rdfs:range qudt:QuantityValue .
+
+
+###  https://w3id.org/sfs/hasFeature
+sfs:hasFeature rdf:type owl:ObjectProperty ;
+               rdfs:domain sfs:Part ;
+               rdfs:range sfs:Feature .
+
+
+###  https://w3id.org/sfs/hasLength
+sfs:hasLength rdf:type owl:ObjectProperty ;
+              rdfs:domain sfs:Part ;
+              rdfs:range qudt:QuantityValue .
+
+
+###  https://w3id.org/sfs/hasPart
+sfs:hasPart rdf:type owl:ObjectProperty ;
+            rdfs:domain sfs:Assembly ;
+            rdfs:range sfs:Part .
+
+
+###  https://w3id.org/sfs/hasPlateThickness
+sfs:hasPlateThickness rdf:type owl:ObjectProperty ;
+                      rdfs:domain sfs:PlatePart ;
+                      rdfs:range qudt:QuantityValue .
+
+
+###  https://w3id.org/sfs/hostPart
+sfs:hostPart rdf:type owl:ObjectProperty ;
+             rdfs:domain sfs:Feature ;
+             rdfs:range sfs:Part .
+
+
+###  https://w3id.org/sfs/maxHoleDiameter
+sfs:maxHoleDiameter rdf:type owl:ObjectProperty ;
+                    rdfs:domain sfs:Machine ;
+                    rdfs:range qudt:QuantityValue .
+
+
+###  https://w3id.org/sfs/maxPlateThickness
+sfs:maxPlateThickness rdf:type owl:ObjectProperty ;
+                      rdfs:domain sfs:Machine ;
+                      rdfs:range qudt:QuantityValue .
+
+
+###  https://w3id.org/sfs/minHoleDiameter
+sfs:minHoleDiameter rdf:type owl:ObjectProperty ;
+                    rdfs:domain sfs:Machine ;
+                    rdfs:range qudt:QuantityValue .
+
+
+###  https://w3id.org/sfs/minPlateThickness
+sfs:minPlateThickness rdf:type owl:ObjectProperty ;
+                      rdfs:domain sfs:Machine ;
+                      rdfs:range qudt:QuantityValue .
+
+
+###  https://w3id.org/sfs/occursIn
+sfs:occursIn rdf:type owl:ObjectProperty ;
+             rdfs:domain sfs:TaskNode ;
+             rdfs:range sfs:WorkBay .
+
+
+###  https://w3id.org/sfs/operatesOnPart
+sfs:operatesOnPart rdf:type owl:ObjectProperty ;
+                   rdfs:domain sfs:TaskNode ;
+                   rdfs:range sfs:Part .
+
+
+###  https://w3id.org/sfs/piercingSpeed
+sfs:piercingSpeed rdf:type owl:ObjectProperty ;
+                  rdfs:domain sfs:PlasmaTableMachine ;
+                  rdfs:range qudt:QuantityValue .
+
+
+###  https://w3id.org/sfs/plasmaCuttingSpeed
+sfs:plasmaCuttingSpeed rdf:type owl:ObjectProperty ;
+                       rdfs:domain sfs:PlasmaTableMachine ;
+                       rdfs:range qudt:QuantityValue .
+
+
+###  https://w3id.org/sfs/precedes
+sfs:precedes rdf:type owl:ObjectProperty ,
+                      owl:AsymmetricProperty ,
+                      owl:IrreflexiveProperty ;
+             rdfs:domain sfs:TaskNode ;
+             rdfs:range sfs:TaskNode .
+
+
+###  https://w3id.org/sfs/representsProcess
+sfs:representsProcess rdf:type owl:ObjectProperty ;
+                      rdfs:domain sfs:TaskNode ;
+                      rdfs:range sfs:FabricationProcess .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  https://w3id.org/sfs/costWeight
+sfs:costWeight rdf:type owl:DatatypeProperty ;
+               rdfs:domain sfs:Policy ;
+               rdfs:range xsd:decimal .
+
+
+###  https://w3id.org/sfs/eventType
+sfs:eventType rdf:type owl:DatatypeProperty ;
+              rdfs:domain sfs:Event ;
+              rdfs:range xsd:string .
+
+
+###  https://w3id.org/sfs/hasFinishTime
+sfs:hasFinishTime rdf:type owl:DatatypeProperty ;
+                  rdfs:domain sfs:TaskNode ;
+                  rdfs:range xsd:dateTime .
+
+
+###  https://w3id.org/sfs/hasModelIdentifier
+sfs:hasModelIdentifier rdf:type owl:DatatypeProperty ;
+                       rdfs:domain sfs:Assembly ;
+                       rdfs:range xsd:string .
+
+
+###  https://w3id.org/sfs/hasStartTime
+sfs:hasStartTime rdf:type owl:DatatypeProperty ;
+                 rdfs:domain sfs:TaskNode ;
+                 rdfs:range xsd:dateTime .
+
+
+###  https://w3id.org/sfs/latenessWeight
+sfs:latenessWeight rdf:type owl:DatatypeProperty ;
+                   rdfs:domain sfs:Policy ;
+                   rdfs:range xsd:decimal .
+
+
+###  https://w3id.org/sfs/objectiveType
+sfs:objectiveType rdf:type owl:DatatypeProperty ;
+                  rdfs:domain sfs:Policy ;
+                  rdfs:range xsd:string .
+
+
+###  https://w3id.org/sfs/operationalCostIndex
+sfs:operationalCostIndex rdf:type owl:DatatypeProperty ;
+                         rdfs:domain sfs:Machine ;
+                         rdfs:range xsd:integer .
+
+
+###  https://w3id.org/sfs/quantity
+sfs:quantity rdf:type owl:DatatypeProperty ;
+             rdfs:domain sfs:Assembly ;
+             rdfs:range xsd:integer .
+
+
+###  https://w3id.org/sfs/supportsBevelCutting
+sfs:supportsBevelCutting rdf:type owl:DatatypeProperty ;
+                         rdfs:domain sfs:Machine ;
+                         rdfs:range xsd:boolean .
+
+
+###  https://w3id.org/sfs/supportsMechanicalDrilling
+sfs:supportsMechanicalDrilling rdf:type owl:DatatypeProperty ;
+                               rdfs:domain sfs:Machine ;
+                               rdfs:range xsd:boolean .
+
+
+###  https://w3id.org/sfs/supportsThermalHoleCutting
+sfs:supportsThermalHoleCutting rdf:type owl:DatatypeProperty ;
+                               rdfs:domain sfs:Machine ;
+                               rdfs:range xsd:boolean .
+
+
+###  https://w3id.org/sfs/throughputPerShift
+sfs:throughputPerShift rdf:type owl:DatatypeProperty ;
+                       rdfs:domain sfs:Machine ;
+                       rdfs:range xsd:decimal .
+
+
+###  https://w3id.org/sfs/windowEnd
+sfs:windowEnd rdf:type owl:DatatypeProperty ;
+              rdfs:domain sfs:Event ;
+              rdfs:range xsd:dateTime .
+
+
+###  https://w3id.org/sfs/windowStart
+sfs:windowStart rdf:type owl:DatatypeProperty ;
+                rdfs:domain sfs:Event ;
+                rdfs:range xsd:dateTime .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://www.w3.org/ns/prov#Activity
+prov:Activity rdf:type owl:Class .
+
+
+###  https://w3id.org/sfs/AngleLineMachine
+sfs:AngleLineMachine rdf:type owl:Class ;
+                     rdfs:subClassOf sfs:Machine .
+
+
+###  https://w3id.org/sfs/Assembly
+sfs:Assembly rdf:type owl:Class .
+
+
+###  https://w3id.org/sfs/BeamAssembly
+sfs:BeamAssembly rdf:type owl:Class ;
+                 rdfs:subClassOf sfs:Assembly .
+
+
+###  https://w3id.org/sfs/BevelEdge
+sfs:BevelEdge rdf:type owl:Class ;
+              rdfs:subClassOf sfs:Feature .
+
+
+###  https://w3id.org/sfs/ColumnAssembly
+sfs:ColumnAssembly rdf:type owl:Class ;
+                   rdfs:subClassOf sfs:Assembly .
+
+
+###  https://w3id.org/sfs/Crew
+sfs:Crew rdf:type owl:Class .
+
+
+###  https://w3id.org/sfs/DrillLineMachine
+sfs:DrillLineMachine rdf:type owl:Class ;
+                     rdfs:subClassOf sfs:Machine .
+
+
+###  https://w3id.org/sfs/Drilling
+sfs:Drilling rdf:type owl:Class ;
+             rdfs:subClassOf sfs:FabricationProcess .
+
+
+###  https://w3id.org/sfs/Event
+sfs:Event rdf:type owl:Class .
+
+
+###  https://w3id.org/sfs/FabricationProcess
+sfs:FabricationProcess rdf:type owl:Class .
+
+
+###  https://w3id.org/sfs/Feature
+sfs:Feature rdf:type owl:Class .
+
+
+###  https://w3id.org/sfs/Fitting
+sfs:Fitting rdf:type owl:Class ;
+            rdfs:subClassOf sfs:FabricationProcess .
+
+
+###  https://w3id.org/sfs/HSSPart
+sfs:HSSPart rdf:type owl:Class ;
+            rdfs:subClassOf sfs:Part .
+
+
+###  https://w3id.org/sfs/HoleFeature
+sfs:HoleFeature rdf:type owl:Class ;
+                rdfs:subClassOf sfs:Feature .
+
+
+###  https://w3id.org/sfs/Machine
+sfs:Machine rdf:type owl:Class .
+
+
+###  https://w3id.org/sfs/Part
+sfs:Part rdf:type owl:Class .
+
+
+###  https://w3id.org/sfs/PlasmaCutting
+sfs:PlasmaCutting rdf:type owl:Class ;
+                  rdfs:subClassOf sfs:FabricationProcess .
+
+
+###  https://w3id.org/sfs/PlasmaTableMachine
+sfs:PlasmaTableMachine rdf:type owl:Class ;
+                       rdfs:subClassOf sfs:Machine .
+
+
+###  https://w3id.org/sfs/PlatePart
+sfs:PlatePart rdf:type owl:Class ;
+              rdfs:subClassOf sfs:Part .
+
+
+###  https://w3id.org/sfs/Policy
+sfs:Policy rdf:type owl:Class .
+
+
+###  https://w3id.org/sfs/PunchLineMachine
+sfs:PunchLineMachine rdf:type owl:Class ;
+                     rdfs:subClassOf sfs:Machine .
+
+
+###  https://w3id.org/sfs/Punching
+sfs:Punching rdf:type owl:Class ;
+             rdfs:subClassOf sfs:FabricationProcess .
+
+
+###  https://w3id.org/sfs/PythonXMachine
+sfs:PythonXMachine rdf:type owl:Class ;
+                   rdfs:subClassOf sfs:Machine .
+
+
+###  https://w3id.org/sfs/SchedulingRun
+sfs:SchedulingRun rdf:type owl:Class ;
+                  rdfs:subClassOf prov:Activity .
+
+
+###  https://w3id.org/sfs/TaskNode
+sfs:TaskNode rdf:type owl:Class .
+
+
+###  https://w3id.org/sfs/WFPart
+sfs:WFPart rdf:type owl:Class ;
+           rdfs:subClassOf sfs:Part .
+
+
+###  https://w3id.org/sfs/WeldFeature
+sfs:WeldFeature rdf:type owl:Class ;
+                rdfs:subClassOf sfs:Feature .
+
+
+###  https://w3id.org/sfs/Welding
+sfs:Welding rdf:type owl:Class ;
+            rdfs:subClassOf sfs:FabricationProcess .
+
+
+###  https://w3id.org/sfs/WorkBay
+sfs:WorkBay rdf:type owl:Class .
+
+
+###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi

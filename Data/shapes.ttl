@@ -1,0 +1,151 @@
+@prefix sh:    <http://www.w3.org/ns/shacl#> .
+@prefix sfs:   <https://w3id.org/sfs/> .
+@prefix qudt:  <http://qudt.org/schema/qudt/> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+
+##########################
+# S1: assigned ⊆ eligible
+##########################
+
+sfs:S1_AssignedSubsetOfEligible
+  a sh:NodeShape ;
+  sh:targetClass sfs:TaskNode ;
+  sh:message "Assigned machine must be one of the eligible machines."@en ;
+  sh:sparql [
+    sh:message "Assigned machine is not in eligibleOn."@en ;
+    sh:select """
+      PREFIX sfs: <https://w3id.org/sfs/>
+
+      SELECT DISTINCT ?this WHERE {
+        ?this a sfs:TaskNode ;
+              sfs:assignedToMachine ?m .
+        FILTER NOT EXISTS { ?this sfs:eligibleOn ?m . }
+      }
+    """ ;
+  ] .
+
+#################################################
+# S2a: hole diameter within machine max capacity
+#      Uses HoleFeature --hostPart--> Part
+#################################################
+
+sfs:S2_HoleDiaWithinCapacity
+  a sh:NodeShape ;
+  sh:targetClass sfs:TaskNode ;
+  sh:message "Hole diameter exceeds assigned machine capacity."@en ;
+  sh:sparql [
+    sh:message "Hole diameter exceeds assigned machine capacity."@en ;
+    sh:select """
+      PREFIX sfs:  <https://w3id.org/sfs/>
+      PREFIX qudt: <http://qudt.org/schema/qudt/>
+      PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+
+      SELECT DISTINCT ?this WHERE {
+        # Task operates on a part and is assigned to a drilling / punching machine
+        ?this a sfs:TaskNode ;
+              sfs:operatesOnPart ?p ;
+              sfs:assignedToMachine ?m .
+
+        # Hole features hosted on that part
+        ?h a sfs:HoleFeature ;
+           sfs:hostPart ?p ;
+           sfs:hasDiameter ?diaQv .
+        ?diaQv qudt:numericValue ?diaVal .
+
+        # Machine hole capacity
+        ?m  sfs:maxHoleDiameter ?capQv .
+        ?capQv qudt:numericValue ?capVal .
+
+        # Violation: hole diameter > machine capacity
+        FILTER ( ?diaVal > ?capVal )
+      }
+    """ ;
+  ] .
+
+#################################################
+# S2b: plate thickness within plasma capacity
+#################################################
+
+sfs:S2_PlateThicknessWithinCapacity
+  a sh:NodeShape ;
+  sh:targetClass sfs:TaskNode ;
+  sh:message "Plate thickness exceeds assigned machine capacity."@en ;
+  sh:sparql [
+    sh:message "Plate thickness exceeds assigned machine capacity."@en ;
+    sh:select """
+      PREFIX sfs:  <https://w3id.org/sfs/>
+      PREFIX qudt: <http://qudt.org/schema/qudt/>
+      PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+
+      SELECT DISTINCT ?this WHERE {
+        ?this a sfs:TaskNode ;
+              sfs:operatesOnPart ?p ;
+              sfs:assignedToMachine ?m .
+        ?p a sfs:PlatePart ;
+           sfs:hasPlateThickness ?thQv .
+        ?thQv qudt:numericValue ?thVal .
+
+        ?m sfs:maxPlateThickness ?maxThQv .
+        ?maxThQv qudt:numericValue ?maxThVal .
+
+        FILTER ( ?thVal > ?maxThVal )
+      }
+    """ ;
+  ] .
+
+#############################################
+# S3: predecessors must finish before start
+#############################################
+
+sfs:S3_PredecessorsCompleted
+  a sh:NodeShape ;
+  sh:targetClass sfs:TaskNode ;
+  sh:message "Task starts before at least one predecessor has finished."@en ;
+  sh:sparql [
+    sh:message "Task starts before predecessor has finished."@en ;
+    sh:select """
+      PREFIX sfs: <https://w3id.org/sfs/>
+      PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+      SELECT DISTINCT ?this WHERE {
+        ?this a sfs:TaskNode ;
+              sfs:hasStartTime ?ts .
+        ?pred a sfs:TaskNode ;
+              sfs:precedes ?this ;
+              sfs:hasFinishTime ?tf .
+        # Violation condition: predecessor finishes after this task starts
+        FILTER ( ?tf > ?ts )
+      }
+    """ ;
+  ] .
+
+#############################################
+# S4: no work during maintenance windows
+#############################################
+
+sfs:S4_NoWorkInMaintenanceWindow
+  a sh:NodeShape ;
+  sh:targetClass sfs:TaskNode ;
+  sh:message "Task scheduled during maintenance window of its machine."@en ;
+  sh:sparql [
+    sh:message "Task scheduled during maintenance window of its machine."@en ;
+    sh:select """
+      PREFIX sfs: <https://w3id.org/sfs/>
+      PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+      SELECT DISTINCT ?this WHERE {
+        ?this a sfs:TaskNode ;
+              sfs:assignedToMachine ?m ;
+              sfs:hasStartTime ?ts ;
+              sfs:hasFinishTime ?tf .
+
+        ?ev a sfs:Event ;
+            sfs:affects ?m ;
+            sfs:windowStart ?ws ;
+            sfs:windowEnd ?we .
+
+        # Any temporal overlap between task and maintenance window is a violation
+        FILTER ( ?ts < ?we && ?tf > ?ws )
+      }
+    """ ;
+  ] .

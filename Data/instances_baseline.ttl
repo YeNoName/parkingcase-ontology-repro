@@ -1,0 +1,287 @@
+@prefix sfs:   <https://w3id.org/sfs/> .
+@prefix ex:    <https://w3id.org/sfs/ParkingCase/> .
+@prefix qudt:  <http://qudt.org/schema/qudt/> .
+@prefix unit:  <http://qudt.org/vocab/unit/> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+
+######## Assemblies & parts (with quantities) ########
+
+# 2B085: W10x12, 6m, 4x Ø19.05mm, quantity 30
+ex:Asm_2B085 a sfs:BeamAssembly ;
+  sfs:hasModelIdentifier "2B085" ;
+  sfs:quantity 30 ;
+  sfs:hasPart ex:Part_2B085_Main .
+
+ex:Part_2B085_Main a sfs:WFPart ;
+  sfs:hasLength ex:Len_2B085_Main .
+
+ex:Len_2B085_Main a qudt:QuantityValue ;
+  qudt:numericValue "6.0"^^xsd:decimal ;
+  qudt:unit unit:M .
+
+ex:Hole_2B085_1 a sfs:HoleFeature ;
+  sfs:hostPart ex:Part_2B085_Main ;
+  sfs:hasDiameter ex:Dia_19_05mm .
+
+ex:Dia_19_05mm a qudt:QuantityValue ;
+  qudt:numericValue "19.05"^^xsd:decimal ;
+  qudt:unit unit:MilliM .
+
+# 2B001: W10x12, 10m, 4x Ø36mm, quantity 10
+ex:Asm_2B001 a sfs:BeamAssembly ;
+  sfs:hasModelIdentifier "2B001" ;
+  sfs:quantity 10 ;
+  sfs:hasPart ex:Part_2B001_Main .
+
+ex:Part_2B001_Main a sfs:WFPart ;
+  sfs:hasLength ex:Len_2B001_Main .
+
+ex:Len_2B001_Main a qudt:QuantityValue ;
+  qudt:numericValue "10.0"^^xsd:decimal ;
+  qudt:unit unit:M .
+
+ex:Hole_2B001_1 a sfs:HoleFeature ;
+  sfs:hostPart ex:Part_2B001_Main ;
+  sfs:hasDiameter ex:Dia_36mm .
+
+ex:Dia_36mm a qudt:QuantityValue ;
+  qudt:numericValue "36.0"^^xsd:decimal ;
+  qudt:unit unit:MilliM .
+
+# C202: HSS + plate with 8x Ø18mm, quantity 5
+ex:Asm_C202 a sfs:ColumnAssembly ;
+  sfs:hasModelIdentifier "C202" ;
+  sfs:quantity 5 ;
+  sfs:hasPart ex:Part_C202_Main , ex:Part_C202_Plate .
+
+ex:Part_C202_Main a sfs:HSSPart ;
+  sfs:hasLength ex:Len_C202_Main .
+
+ex:Len_C202_Main a qudt:QuantityValue ;
+  qudt:numericValue "12.0"^^xsd:decimal ;
+  qudt:unit unit:M .
+
+ex:Part_C202_Plate a sfs:PlatePart ;
+  sfs:hasPlateThickness ex:Th_C202_Plate .
+
+ex:Th_C202_Plate a qudt:QuantityValue ;
+  qudt:numericValue "20.0"^^xsd:decimal ;
+  qudt:unit unit:MilliM .
+
+ex:Hole_C202_PL_1 a sfs:HoleFeature ;
+  sfs:hostPart ex:Part_C202_Plate ;
+  sfs:hasDiameter ex:Dia_18mm .
+
+ex:Dia_18mm a qudt:QuantityValue ;
+  qudt:numericValue "18.0"^^xsd:decimal ;
+  qudt:unit unit:MilliM .
+
+######## Machines & capability envelopes ########
+
+# Beamline machines
+ex:DrillLine_DL01 a sfs:DrillLineMachine ;
+  sfs:maxHoleDiameter ex:DL01_MaxHole ;
+  sfs:supportsMechanicalDrilling true ;
+  sfs:supportsThermalHoleCutting false .
+
+ex:DL01_MaxHole a qudt:QuantityValue ;
+  qudt:numericValue "36.51"^^xsd:decimal ;
+  qudt:unit unit:MilliM .
+
+ex:PunchLine_PL01 a sfs:PunchLineMachine ;
+  sfs:maxHoleDiameter ex:PL01_MaxHole ;
+  sfs:supportsMechanicalDrilling true ;
+  sfs:supportsThermalHoleCutting false .
+
+ex:PL01_MaxHole a qudt:QuantityValue ;
+  qudt:numericValue "30.0"^^xsd:decimal ;
+  qudt:unit unit:MilliM .
+
+ex:PythonX_PX01 a sfs:PythonXMachine ;
+  sfs:maxHoleDiameter ex:PX01_MaxHole ;
+  sfs:supportsMechanicalDrilling true ;
+  sfs:supportsThermalHoleCutting false ;
+  sfs:supportsBevelCutting true .
+
+ex:PX01_MaxHole a qudt:QuantityValue ;
+  qudt:numericValue "60.0"^^xsd:decimal ;
+  qudt:unit unit:MilliM .
+
+# Plasma tables
+ex:Plasma_Messer a sfs:PlasmaTableMachine ;
+  sfs:minPlateThickness ex:PT_Messer_MinTh ;
+  sfs:maxPlateThickness ex:PT_Messer_MaxTh ;
+  sfs:plasmaCuttingSpeed ex:PT_Messer_Speed ;
+  sfs:piercingSpeed ex:PT_Messer_Pierce ;
+  sfs:operationalCostIndex 2 ;
+  sfs:supportsThermalHoleCutting true .
+
+ex:PT_Messer_MinTh a qudt:QuantityValue ;
+  qudt:numericValue "4.0"^^xsd:decimal ;
+  qudt:unit unit:MilliM .
+
+ex:PT_Messer_MaxTh a qudt:QuantityValue ;
+  qudt:numericValue "200.0"^^xsd:decimal ;
+  qudt:unit unit:MilliM .
+
+ex:PT_Messer_Speed a qudt:QuantityValue ;
+  qudt:numericValue "0.8"^^xsd:decimal ;
+  qudt:unit unit:M-PER-MIN .
+
+ex:PT_Messer_Pierce a qudt:QuantityValue ;
+  qudt:numericValue "6.0"^^xsd:decimal ;
+  qudt:unit unit:PER-MIN .
+
+ex:Plasma_Sector a sfs:PlasmaTableMachine ;
+  sfs:minPlateThickness ex:PT_Sector_MinTh ;
+  sfs:maxPlateThickness ex:PT_Sector_MaxTh ;
+  sfs:plasmaCuttingSpeed ex:PT_Sector_Speed ;
+  sfs:piercingSpeed ex:PT_Sector_Pierce ;
+  sfs:operationalCostIndex 1 ;
+  sfs:supportsThermalHoleCutting true .
+
+ex:PT_Sector_MinTh a qudt:QuantityValue ;
+  qudt:numericValue "4.0"^^xsd:decimal ;
+  qudt:unit unit:MilliM .
+
+ex:PT_Sector_MaxTh a qudt:QuantityValue ;
+  qudt:numericValue "100.0"^^xsd:decimal ;
+  qudt:unit unit:MilliM .
+
+ex:PT_Sector_Speed a qudt:QuantityValue ;
+  qudt:numericValue "1.0"^^xsd:decimal ;
+  qudt:unit unit:M-PER-MIN .
+
+ex:PT_Sector_Pierce a qudt:QuantityValue ;
+  qudt:numericValue "8.0"^^xsd:decimal ;
+  qudt:unit unit:PER-MIN .
+
+ex:Plasma_CA a sfs:PlasmaTableMachine ;
+  sfs:minPlateThickness ex:PT_CA_MinTh ;
+  sfs:maxPlateThickness ex:PT_CA_MaxTh ;
+  sfs:plasmaCuttingSpeed ex:PT_CA_Speed ;
+  sfs:piercingSpeed ex:PT_CA_Pierce ;
+  sfs:operationalCostIndex 3 ;
+  sfs:supportsThermalHoleCutting true ;
+  sfs:supportsMechanicalDrilling true .
+
+ex:PT_CA_MinTh a qudt:QuantityValue ;
+  qudt:numericValue "4.0"^^xsd:decimal ;
+  qudt:unit unit:MilliM .
+
+ex:PT_CA_MaxTh a qudt:QuantityValue ;
+  qudt:numericValue "200.0"^^xsd:decimal ;
+  qudt:unit unit:MilliM .
+
+ex:PT_CA_Speed a qudt:QuantityValue ;
+  qudt:numericValue "1.2"^^xsd:decimal ;
+  qudt:unit unit:M-PER-MIN .
+
+ex:PT_CA_Pierce a qudt:QuantityValue ;
+  qudt:numericValue "10.0"^^xsd:decimal ;
+  qudt:unit unit:PER-MIN .
+
+# Angle Master (not binding in this case)
+ex:AngleMaster_AM01 a sfs:AngleLineMachine .
+
+######## Tasks (baseline, all feasible) ########
+
+# 2B085 drilling on Drill Line, then fitting and welding
+ex:T_Drill_2B085 a sfs:TaskNode ;
+  sfs:belongsToAssembly ex:Asm_2B085 ;
+  sfs:operatesOnPart ex:Part_2B085_Main ;
+  sfs:representsProcess sfs:Drilling ;
+  sfs:eligibleOn ex:DrillLine_DL01 , ex:PythonX_PX01 ;
+  sfs:assignedToMachine ex:DrillLine_DL01 ;
+  sfs:hasStartTime  "2025-11-21T08:00:00Z"^^xsd:dateTime ;
+  sfs:hasFinishTime "2025-11-21T09:00:00Z"^^xsd:dateTime .
+
+ex:T_Fit_2B085 a sfs:TaskNode ;
+  sfs:belongsToAssembly ex:Asm_2B085 ;
+  sfs:representsProcess sfs:Fitting ;
+  sfs:hasStartTime  "2025-11-21T10:00:00Z"^^xsd:dateTime ;
+  sfs:hasFinishTime "2025-11-21T11:00:00Z"^^xsd:dateTime .
+
+ex:T_Weld_2B085 a sfs:TaskNode ;
+  sfs:belongsToAssembly ex:Asm_2B085 ;
+  sfs:representsProcess sfs:Welding ;
+  sfs:hasStartTime  "2025-11-21T11:00:00Z"^^xsd:dateTime ;
+  sfs:hasFinishTime "2025-11-21T12:00:00Z"^^xsd:dateTime .
+
+# 2B001 drilling on PythonX (large holes, feasible), then fitting and welding
+ex:T_Drill_2B001 a sfs:TaskNode ;
+  sfs:belongsToAssembly ex:Asm_2B001 ;
+  sfs:operatesOnPart ex:Part_2B001_Main ;
+  sfs:representsProcess sfs:Drilling ;
+  sfs:eligibleOn ex:DrillLine_DL01 , ex:PythonX_PX01 ;
+  sfs:assignedToMachine ex:PythonX_PX01 ;
+  sfs:hasStartTime  "2025-11-21T09:00:00Z"^^xsd:dateTime ;
+  sfs:hasFinishTime "2025-11-21T10:00:00Z"^^xsd:dateTime .
+
+ex:T_Fit_2B001 a sfs:TaskNode ;
+  sfs:belongsToAssembly ex:Asm_2B001 ;
+  sfs:representsProcess sfs:Fitting ;
+  sfs:hasStartTime  "2025-11-21T11:00:00Z"^^xsd:dateTime ;
+  sfs:hasFinishTime "2025-11-21T12:00:00Z"^^xsd:dateTime .
+
+ex:T_Weld_2B001 a sfs:TaskNode ;
+  sfs:belongsToAssembly ex:Asm_2B001 ;
+  sfs:representsProcess sfs:Welding ;
+  sfs:hasStartTime  "2025-11-21T12:00:00Z"^^xsd:dateTime ;
+  sfs:hasFinishTime "2025-11-21T13:00:00Z"^^xsd:dateTime .
+
+# C202: PythonX on HSS, plasma on plate, then fitting and welding
+ex:T_Drill_C202 a sfs:TaskNode ;
+  sfs:belongsToAssembly ex:Asm_C202 ;
+  sfs:operatesOnPart ex:Part_C202_Main ;
+  sfs:representsProcess sfs:Drilling ;
+  sfs:eligibleOn ex:PythonX_PX01 ;
+  sfs:assignedToMachine ex:PythonX_PX01 ;
+  sfs:hasStartTime  "2025-11-21T08:00:00Z"^^xsd:dateTime ;
+  sfs:hasFinishTime "2025-11-21T09:00:00Z"^^xsd:dateTime .
+
+ex:T_Plasma_C202 a sfs:TaskNode ;
+  sfs:belongsToAssembly ex:Asm_C202 ;
+  sfs:operatesOnPart ex:Part_C202_Plate ;
+  sfs:representsProcess sfs:PlasmaCutting ;
+  sfs:eligibleOn ex:Plasma_Messer , ex:Plasma_Sector , ex:Plasma_CA ;
+  sfs:assignedToMachine ex:Plasma_Messer ;
+  sfs:hasStartTime  "2025-11-21T09:00:00Z"^^xsd:dateTime ;
+  sfs:hasFinishTime "2025-11-21T10:00:00Z"^^xsd:dateTime .
+
+ex:T_Fit_C202 a sfs:TaskNode ;
+  sfs:belongsToAssembly ex:Asm_C202 ;
+  sfs:representsProcess sfs:Fitting ;
+  sfs:hasStartTime  "2025-11-21T11:00:00Z"^^xsd:dateTime ;
+  sfs:hasFinishTime "2025-11-21T12:00:00Z"^^xsd:dateTime .
+
+ex:T_Weld_C202 a sfs:TaskNode ;
+  sfs:belongsToAssembly ex:Asm_C202 ;
+  sfs:representsProcess sfs:Welding ;
+  sfs:hasStartTime  "2025-11-21T12:00:00Z"^^xsd:dateTime ;
+  sfs:hasFinishTime "2025-11-21T13:00:00Z"^^xsd:dateTime .
+
+# Precedence: beamline/plasma precede fitting, fitting precedes welding
+ex:T_Drill_2B085 sfs:precedes ex:T_Fit_2B085 .
+ex:T_Drill_2B001 sfs:precedes ex:T_Fit_2B001 .
+ex:T_Drill_C202  sfs:precedes ex:T_Fit_C202 .
+ex:T_Plasma_C202 sfs:precedes ex:T_Fit_C202 .
+
+ex:T_Fit_2B085 sfs:precedes ex:T_Weld_2B085 .
+ex:T_Fit_2B001 sfs:precedes ex:T_Weld_2B001 .
+ex:T_Fit_C202  sfs:precedes ex:T_Weld_C202 .
+
+######## Maintenance event (baseline: no overlap) ########
+
+ex:EV_DL01_Maint a sfs:Event ;
+  sfs:eventType "maintenance" ;
+  sfs:affects ex:DrillLine_DL01 ;
+  sfs:windowStart "2025-11-21T14:00:00Z"^^xsd:dateTime ;
+  sfs:windowEnd   "2025-11-21T16:00:00Z"^^xsd:dateTime .
+
+######## Policy (baseline example) ########
+
+ex:Policy_Expedite a sfs:Policy ;
+  sfs:objectiveType "expedite" ;
+  sfs:latenessWeight "2.0"^^xsd:decimal ;
+  sfs:costWeight "1.0"^^xsd:decimal .
